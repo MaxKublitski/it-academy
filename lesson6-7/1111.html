@@ -1,0 +1,193 @@
+<?php
+
+
+$host = '127.0.0.1';
+$user = 'root';
+$password = '';
+$database = 'it2';
+
+$connectionToDatabase = mysqli_connect($host,$user,$password, $database);
+
+
+var_dump($_GET);
+var_dump($_POST);
+
+// получить данные с формы
+//$_POST
+$fileName = 'journal.txt';
+//обавить проверку пост, если пустой, то пропустить добавлени в файл
+if (!empty($_POST)){
+    //открыть файл, добавить данные в конец
+
+    $fileResource = fopen(__DIR__ . '/' . $fileName, 'a');
+
+
+    //сохранить или fputcsv()
+    $data = implode('^!^', $_POST);
+    fwrite($fileResource, $data . PHP_EOL);
+    //закрыть
+    fclose($fileResource);
+
+
+    //сохрани в базу данных в нашу таблицу
+$query1 = "INSERT INTO table_name (`car`, `number`)
+VALUES ('{$_POST['car']}' , '{$_POST['number']}' )";
+
+$query2 = "INSERT INTO table_name (`car`, `number`)
+VALUES ( '" . $_POST['car'] . "' , '" .$_POST['number'] . "' )";
+
+$query3 = sprintf("INSERT INTO table_name (`car`, `number`) VALUES ('%s', '%s' )",
+    $_POST['car'] ,
+    $_POST['number']
+);
+print_r($query3);
+$connectionToDatabase->query($query3);
+
+
+
+}
+
+//открыть файл для чтения
+$fileResource = fopen(__DIR__ . '/' . $fileName, 'r');
+
+$journal = [];
+//прочитать все из файла
+
+$date = new \DateTime();
+
+while (!feof($fileResource)) {
+//удаляем переход на новую строку
+$row = trim(fgets($fileResource));
+$itemArray = explode('^!^', $row);
+$item = [
+'date'      => $date->format('d-m-Y H:i:s'),
+'type'      => $itemArray[2],
+'car'       => $itemArray[1],
+'number'    => $itemArray[0],
+];
+$journal[] = $item;
+}
+
+
+//второй вариант начало
+/*while (!feof($fileResource)) {
+$contents .= fread($fileResource, 8192);
+}
+
+
+$contentAsArrayOfStrings = explode(PHP_EOL, $contents);
+
+foreach ($contentAsArrayOfStrings as $item) {
+$itemArray = explode('^!^', $item);
+
+$item = [
+'date'      => $date->format('d-m-Y H:i:s'),
+'type'      => $itemArray[2],
+'car'       => $itemArray[1],
+'number'    => $itemArray[0],
+];
+$journal[] = $item;
+}*/
+//второй вариант конец
+
+
+$jsonResults = file_get_contents('https://catalog.api.onliner.by/search/products?query=playstation+4');
+$arrayResults = json_decode($jsonResults);
+
+var_dump($results);
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+</head>
+
+<style>
+    .container {
+        background-color: #86cfda;
+    }
+
+</style>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-2 col-sm-12">Hello</div>
+        <div class="col-lg-6 col-md-8 col-sm-12" style="background-color: #d39e00">
+            <table class="table table-striped">
+                <tr>
+                    <th>Дата</th>
+                    <th>Тип</th>
+                    <th>Автомобиль</th>
+                    <th>Действия</th>
+                <tr>
+                    <?php foreach ($arrayResults->products
+
+                    as $item) { ?>
+                <tr>
+                    <td><?php echo $item->id; ?></td>
+                    <td><?php echo $item->name; ?></td>
+                    <td><?php echo $item->description; ?></td>
+                    <td><?php echo $item->url; ?></td>
+                </tr>
+                <?php } ?>
+            </table>
+
+            <?php foreach ($journal as $item) { ?>
+            <div class="row">
+                <div class="col-sm-6"><?php echo $item['date']; ?></div>
+                <div class="col-sm-6"><?php echo $item['time']; ?></div>
+                <div class="col-sm-12"><?php echo $item['car']; ?></div>
+                <div class="col-sm-12"><?php echo $item['number'];?></div>
+                <div class="col-sm-12">
+                    <a href="">Просмотреть</a>
+                    <a href="">Изменить</a>
+                    <a href="">Удалить</a>
+                </div>
+            </div>
+            <?php } ?>
+
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col">
+
+        </div>
+        <div class="col">
+            <form action="" method="get">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="car">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="number">
+                </div>
+                <div class="form-group">
+                    <select  class="form-control"   name="type" id="">
+                        <option value="incom">Прием</option>
+                        <option value="outcome">Отгрузка</option>
+                    </select>
+                </div>
+                <button  class="form-control form-control-lg" type="submit">добавить</button>
+            </form>
+        </div>
+        <div class="col">
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
