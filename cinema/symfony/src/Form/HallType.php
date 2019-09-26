@@ -2,25 +2,27 @@
 
 namespace App\Form;
 
-use App\Entity\Movies;
+use App\Entity\Hall;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MoviesType extends AbstractType
+class HallType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('description')
+            ->add('row')
+            ->add('number')
+            ->add('cathegory')
+            ->add('price')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Movies::class,
+            'data_class' => Hall::class,
         ]);
     }
 }

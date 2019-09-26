@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MoviesRepository")
@@ -18,8 +17,6 @@ class Movies
     private $id;
 
     /**
-     * @Assert\NotBlank()
-     *
      * @ORM\Column(type="string", length=255)
      */
     private $title;

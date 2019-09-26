@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order{% endblock %}
+
+{% block body %}
+    <h1>Order</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ orders.id }}</td>
+            </tr>
+            <tr>
+                <th>Customer_id</th>
+                <td>{{ orders.customerId }}</td>
+            </tr>
+            <tr>
+                <th>Hall_id</th>
+                <td>{{ orders.hallId }}</td>
+            </tr>
+            <tr>
+                <th>Seanse_id</th>
+                <td>{{ orders.seanseId }}</td>
+            </tr>
+            <tr>
+                <th>Total_price</th>
+                <td>{{ orders.totalPrice }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('orders_index') }}">back to list</a>
+
+    <a href="{{ path('orders_edit', {'id': orders.id}) }}">edit</a>
+
+    {{ include('orders/_delete_form.html.twig') }}
+{% endblock %}

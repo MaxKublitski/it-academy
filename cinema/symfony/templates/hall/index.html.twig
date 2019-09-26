@@ -1,20 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HallController!{% endblock %}
+{% block title %}Hall index{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>Hall index</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Row</th>
+                <th>Number</th>
+                <th>Cathegory</th>
+                <th>Price</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for hall in halls %}
+            <tr>
+                <td>{{ hall.id }}</td>
+                <td>{{ hall.row }}</td>
+                <td>{{ hall.number }}</td>
+                <td>{{ hall.cathegory }}</td>
+                <td>{{ hall.price }}</td>
+                <td>
+                    <a href="{{ path('hall_show', {'id': hall.id}) }}">show</a>
+                    <a href="{{ path('hall_edit', {'id': hall.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/OSPanel/domains/Frameworks/symfony/src/Controller/HallController.php'|file_link(0) }}">src/Controller/HallController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/OSPanel/domains/Frameworks/symfony/templates/hall/index.html.twig'|file_link(0) }}">templates/hall/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <a href="{{ path('hall_new') }}">Create new</a>
 {% endblock %}
