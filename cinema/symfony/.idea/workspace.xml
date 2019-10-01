@@ -140,8 +140,13 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../test" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates/sign_up" />
     <property name="nodejs_package_manager_path" value="npm" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\OSPanel\domains\Frameworks\symfony\templates\sign_up" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -170,6 +175,13 @@
       <workItem from="1569219749677" duration="15439000" />
       <workItem from="1569478108121" duration="3043000" />
       <workItem from="1569505739648" duration="3168000" />
+      <workItem from="1569582967809" duration="4261000" />
+      <workItem from="1569610702328" duration="1251000" />
+      <workItem from="1569667961412" duration="5370000" />
+      <workItem from="1569745367713" duration="14520000" />
+      <workItem from="1569866043580" duration="1764000" />
+      <workItem from="1569917059201" duration="683000" />
+      <workItem from="1569929660958" duration="3024000" />
     </task>
     <servers />
   </component>
